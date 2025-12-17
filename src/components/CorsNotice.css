@@ -1,0 +1,116 @@
+.cors-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.cors-notice-content {
+  background-color: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color, #e9ecef);
+}
+
+[data-theme="dark"] .cors-notice-content {
+  --card-bg: #2a2a2a;
+  --border-color: #444;
+}
+
+.cors-notice h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-color, #333);
+  font-size: 1.5rem;
+}
+
+[data-theme="dark"] .cors-notice h3 {
+  --text-color: #fff;
+}
+
+.cors-notice p {
+  color: var(--text-secondary, #666);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .cors-notice p {
+  --text-secondary: #ccc;
+}
+
+.cors-solutions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.solution {
+  padding: 1rem;
+  background-color: var(--solution-bg, #f8f9fa);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color, #007bff);
+}
+
+[data-theme="dark"] .solution {
+  --solution-bg: #1a1a1a;
+}
+
+.solution h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color, #333);
+  font-size: 1rem;
+}
+
+[data-theme="dark"] .solution h4 {
+  --text-color: #fff;
+}
+
+.solution p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cors-notice-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.dismiss-button {
+  background-color: var(--primary-color, #007bff);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dismiss-button:hover {
+  background-color: var(--primary-hover, #0056b3);
+}
+
+@media (max-width: 768px) {
+  .cors-notice-content {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .cors-solutions {
+    gap: 0.75rem;
+  }
+
+  .solution {
+    padding: 0.75rem;
+  }
+}

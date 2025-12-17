@@ -1,6 +1,14 @@
-# Welcome to your Expo app 👋
+# GitHub Workflow App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React web application for managing GitHub workflow automation. This app was converted from an Expo React Native app to a pure React web application.
+
+## Features
+
+- 🧠 GitHub workflow automation management
+- 🌙 Dark/Light theme support
+- 📱 Responsive design
+- ⚡ Fast development with Vite
+- 🎯 TypeScript support
 
 ## Get started
 
@@ -10,41 +18,55 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Start the development server
 
    ```bash
-   npx expo start
+   npm run dev
    ```
 
-In the output, you'll find options to open the app in a
+3. Open your browser and navigate to `http://localhost:5173`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Build for production
 
 ```bash
-npm run reset-project
+npm run build
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+The built files will be in the `dist` directory, ready for deployment to any static hosting service.
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+├── contexts/           # React contexts (theme, etc.)
+├── pages/             # Page components
+├── App.tsx            # Main app component with routing
+├── main.tsx           # Application entry point
+└── index.css          # Global styles
+```
+
+## Technologies Used
+
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **React Router** - Client-side routing
+- **Vite** - Build tool and dev server
+- **CSS3** - Styling with CSS custom properties
+- **Axios** - HTTP client for GitHub API
+
+## Deployment
+
+This app can be deployed to any static hosting service:
+
+- **Vercel**: Connect your GitHub repo for automatic deployments
+- **Netlify**: Drag and drop the `dist` folder or connect via Git
+- **GitHub Pages**: Use GitHub Actions to build and deploy
+- **Any CDN**: Upload the `dist` folder contents
 
 ## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [React Documentation](https://react.dev/)
+- [React Router](https://reactrouter.com/)
+- [Vite Documentation](https://vitejs.dev/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
