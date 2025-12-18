@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { githubService } from '../services/githubApi'
 import CorsNotice from '../components/CorsNotice'
 import './Home.css'
@@ -14,11 +14,7 @@ export default function Home() {
   const [showCorsNotice, setShowCorsNotice] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
 
-  useEffect(() => {
-    fetchAllStatus()
-  }, [])
-
-  const fetchAllStatus = async () => {
+  const fetchAllStatus = useCallback(async () => {
     setRefreshing(true)
     setLoading(true)
     setError(null)
@@ -50,7 +46,11 @@ export default function Home() {
 
     setRefreshing(false)
     setLoading(false)
-  }
+  }, [demoMode])
+
+  useEffect(() => {
+    fetchAllStatus()
+  }, [fetchAllStatus])
 
   const getExpectedRunType = () => {
     const utcHour = new Date().getUTCHours()
@@ -59,7 +59,7 @@ export default function Home() {
     return '⏳ Not check-in or check-out time'
   }
 
-  const loadAutomation = async () => {
+  const loadAutomation = useCallback(async () => {
     try {
       const config = await githubService.loadAutomation()
       setAutomationEnabled(config.enabled)
@@ -69,7 +69,7 @@ export default function Home() {
       console.error('Failed to load automation config:', err)
       throw err
     }
-  }
+  }, [])
 
   const updateAutomationState = async (newEnabled: boolean) => {
     if (demoMode) {
@@ -97,13 +97,68 @@ export default function Home() {
     }
   }
 
-  const checkWorkflowStatus = async () => {
+  const checkWorkflowStatus = useCallback(async () => {
     try {
       const { isRunning } = await githubService.checkWorkflowStatus()
       setIsRunning(isRunning)
     } catch (err) {
       console.error('Failed to check workflow status:', err)
       throw err
+    }
+  }, [])
+
+  const debugWorkflow = async () => {
+    if (demoMode) {
+      alert('[DEMO] Debug mode not available in demo')
+      return
+    }
+
+    try {
+      setError(null)
+      console.log('=== WORKFLOW DEBUG INFO ===')
+
+      // Get workflows
+      const workflows = await githubService.listWorkflows()
+      console.log('Available workflows:', workflows)
+
+      // Get default branch
+      const defaultBranch = await githubService.getDefaultBranch()
+      console.log('Default branch:', defaultBranch)
+
+      // Check specific workflow file
+      const workflowCheck = await githubService.checkWorkflowFile()
+      console.log('Workflow file check:', workflowCheck)
+
+      // Build debug message
+      let debugMessage = `Debug Info:\n\nDefault Branch: ${defaultBranch}\n\n`
+
+      if (workflows.length === 0) {
+        debugMessage += 'No workflows found in repository!'
+      } else {
+        debugMessage += `Available Workflows (${workflows.length}):\n`
+        workflows.forEach(w => {
+          debugMessage += `• ${w.name} (${w.path}) - ${w.state}\n`
+        })
+      }
+
+      debugMessage += `\nTarget Workflow: .github/workflows/node.js.yml\n`
+      debugMessage += `• Exists: ${workflowCheck.exists ? 'Yes' : 'No'}\n`
+      debugMessage += `• Has workflow_dispatch: ${workflowCheck.hasDispatch ? 'Yes' : 'No'}\n`
+
+      if (!workflowCheck.exists) {
+        debugMessage += '\n❌ The workflow file does not exist!'
+      } else if (!workflowCheck.hasDispatch) {
+        debugMessage += '\n❌ The workflow file exists but does not have workflow_dispatch trigger!'
+      } else {
+        debugMessage += '\n✅ Workflow file looks good!'
+      }
+
+      alert(debugMessage)
+
+    } catch (err) {
+      console.error('Debug failed:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Debug failed'
+      alert(`Debug Error: ${errorMessage}`)
     }
   }
 
@@ -234,6 +289,17 @@ export default function Home() {
                 🚀 Trigger Workflow
               </button>
             </div>
+
+            {!demoMode && (
+              <div className="button-group">
+                <button
+                  className="action-button debug"
+                  onClick={debugWorkflow}
+                >
+                  🔍 Debug Workflow Info
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

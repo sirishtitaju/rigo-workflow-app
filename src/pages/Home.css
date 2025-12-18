@@ -245,6 +245,16 @@
   background-color: var(--danger-hover, #c62828);
 }
 
+.action-button.debug {
+  background-color: var(--debug-color, #6c757d);
+  color: white;
+  font-size: 0.9rem;
+}
+
+.action-button.debug:hover:not(:disabled) {
+  background-color: var(--debug-hover, #5a6268);
+}
+
 .action-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
